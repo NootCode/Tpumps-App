@@ -83,7 +83,6 @@ class _LocationsPageState extends State<LocationsPage> {
                     ),
                     Container(
                       alignment: Alignment.centerLeft,
-                      //margin: EdgeInsets.only(bottom: 10),
                       child: Text(
                           'Tpumps San Jose - 7290 Bollinger Rd\nSan Jose, CA, 95129'),
                     ),
