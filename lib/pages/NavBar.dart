@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:tpumps_app/pages/drink_maker_page.dart';
 import 'package:tpumps_app/pages/home_page.dart';
 import 'package:tpumps_app/pages/locations_page.dart';
 import 'package:tpumps_app/pages/community_page.dart';
-import 'package:tpumps_app/pages/stats_page.dart';
+import 'package:tpumps_app/pages/myDrinks_page.dart';
 
 class NavBar extends StatefulWidget {
   NavBar({Key? key}) : super(key: key);
@@ -16,9 +17,9 @@ class _NavBarState extends State<NavBar> {
   PageController _pageController = PageController();
   List<Widget> _screens = [
     HomePage(),
-    CommunityPage(),
+    //CommunityPage(),
     DrinkMakerPage(),
-    StatsPage(),
+    MyDrinksPage(),
     LocationsPage(),
   ];
   int _selectedIndex = 0;
@@ -43,27 +44,39 @@ class _NavBarState extends State<NavBar> {
         physics: NeverScrollableScrollPhysics(),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        unselectedIconTheme: IconThemeData(
+          color: Colors.white,
+          size: 30,
+          opacity: 1,
+        ),
+        selectedIconTheme: IconThemeData(
+          color: Colors.red,
+          size: 30,
+          opacity: 1,
+        ),
+        unselectedItemColor: Colors.white,
         onTap: _onItemTapped,
         type: BottomNavigationBarType.fixed,
         currentIndex: _selectedIndex,
-        selectedLabelStyle: TextStyle(color: Colors.red),
+        backgroundColor: Color(0xff232b2b),
+        selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
         selectedItemColor: Colors.red,
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: "Home",
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: "Community",
-          ),
+          // BottomNavigationBarItem(
+          //   icon: Icon(Icons.person),
+          //   label: "Community",
+          // ),
           BottomNavigationBarItem(
             icon: Icon(Icons.local_drink_outlined),
             label: "DrinkMaker",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.bar_chart),
-            label: "Stats",
+            icon: Icon(Icons.r_mobiledata),
+            label: "My Drinks",
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.map),

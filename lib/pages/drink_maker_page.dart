@@ -1,4 +1,6 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:tpumps_app/main.dart';
 import 'package:tpumps_app/pages/flavors.dart';
 
 class DrinkMakerPage extends StatefulWidget {
@@ -10,57 +12,88 @@ class DrinkMakerPage extends StatefulWidget {
 
 class _DrinkMakerPageState extends State<DrinkMakerPage> {
   String flavors = "";
-  String selectedTea = "";
+  String selectedTea = "Green";
   bool milk = false;
   String milkType = "Lactose Free Creamer";
   String sweetVal = "";
   String topping = "";
   String result = "";
 
+  int counter = 0;
+
   @override
   void initState() {
     super.initState();
     setState(() {
       flavors = "";
-      selectedTea = "";
+      selectedTea = "Green";
       milkType = "Lactose Free Creamer";
       sweetVal = "Normal Sweet";
       topping = "No topping";
-      result = "";
+      result = "Green Tea Normal Sweet with No Topping";
     });
   }
 
+  TextStyle ts = new TextStyle(color: Colors.white, fontSize: 16);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 100,
-        backgroundColor: Colors.red,
+        backgroundColor: Color(0xff232b2b),
         title: Center(
-          child: Text(
-            'TPUMPS',
-            style: TextStyle(fontSize: 30),
+          child: Image(
+            image: NetworkImage(
+                'https://static.wixstatic.com/media/131e23_5b7a1179131a40b8b7badda0ebf119ef~mv2_d_3552_1998_s_2.png/v1/crop/x_0,y_382,w_3552,h_1277/fill/w_460,h_166,al_c,q_85,usm_0.66_1.00_0.01/131e23_5b7a1179131a40b8b7badda0ebf119ef~mv2_d_3552_1998_s_2.webp'),
+            fit: BoxFit.cover,
+            height: 100,
           ),
         ),
       ),
       body: Container(
-        child: Column(
-          children: [
-            ElevatedButton(
-              onPressed: () {
-                _awaitFlavors(context);
-              },
-              child: Text("Choose Flavors"),
-            ),
-            Text(flavors),
-            getTea(),
-            getMilk(),
-            if (milk) milkDrop(),
-            sweetDrop(),
-            toppChoice(),
-            Text(result),
-            saveDrink()
-          ],
+        color: Color(0xff3b444b),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              ElevatedButton(
+                onPressed: () {
+                  _awaitFlavors(context);
+                },
+                child: Text("Choose Flavors"),
+              ),
+              Text(
+                flavors,
+                style: TextStyle(color: Colors.white, fontSize: 22),
+              ),
+              getTea(),
+              getMilk(),
+              if (milk) milkDrop(),
+              sweetDrop(),
+              toppChoice(),
+              Divider(
+                color: Colors.red,
+                thickness: 3,
+              ),
+              Center(
+                child: Text(
+                  "Drink Created",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 25,
+                    decoration: TextDecoration.underline,
+                    decorationStyle: TextDecorationStyle.double,
+                  ),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.all(20),
+                child: Center(
+                  child: Text(result, style: ts),
+                ),
+              ),
+              saveDrink()
+            ],
+          ),
         ),
       ),
     );
@@ -98,7 +131,7 @@ class _DrinkMakerPageState extends State<DrinkMakerPage> {
       else if (milk)
         result += " Milk Tea";
       else
-        result += "Tea";
+        result += " Tea";
 
       result += " " + sweetVal + " with " + topping;
     });
@@ -106,12 +139,32 @@ class _DrinkMakerPageState extends State<DrinkMakerPage> {
 
   callSave() {
     print("Saving: " + result);
+    var timestamp = new DateTime.now().millisecondsSinceEpoch;
+    FirebaseDatabase.instance
+        .reference()
+        .child("Saved Drinks/Drink " + timestamp.toString())
+        .set({'name': result, 'key': 'Drink $timestamp'})
+        .then((value) => print('Successfully Saved Drink'))
+        .catchError((error) {
+          print("failed");
+          print(error.toString());
+        });
+
+    counter++;
   }
 
   Widget getTea() => Column(children: [
+        Divider(
+          color: Colors.red,
+          thickness: 3,
+        ),
+        Text("Select your Tea:",
+            style: TextStyle(color: Colors.white, fontSize: 18)),
         Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Radio<String>(
                   value: "Green",
@@ -121,7 +174,7 @@ class _DrinkMakerPageState extends State<DrinkMakerPage> {
                     getResult();
                   },
                 ),
-                Text("Green Tea")
+                Text("Green Tea", style: ts)
               ],
             ),
             Row(
@@ -134,12 +187,13 @@ class _DrinkMakerPageState extends State<DrinkMakerPage> {
                     getResult();
                   },
                 ),
-                Text("Black Tea")
+                Text("Black Tea", style: ts)
               ],
             )
           ],
         ),
         Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Row(
               children: [
@@ -151,7 +205,7 @@ class _DrinkMakerPageState extends State<DrinkMakerPage> {
                     getResult();
                   },
                 ),
-                Text("Non Caffeinated Tea")
+                Text("Non Caffeinated Tea", style: ts)
               ],
             ),
             Row(
@@ -164,7 +218,7 @@ class _DrinkMakerPageState extends State<DrinkMakerPage> {
                     getResult();
                   },
                 ),
-                Text("Thai Tea")
+                Text("Thai Tea", style: ts)
               ],
             )
           ],
@@ -172,8 +226,13 @@ class _DrinkMakerPageState extends State<DrinkMakerPage> {
       ]);
   Widget getMilk() => Column(
         children: [
-          Text("Do you Want Milk?"),
+          Divider(
+            color: Colors.red,
+            thickness: 3,
+          ),
+          Text("Do you Want Milk?", style: ts),
           Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Row(
                 children: [
@@ -185,7 +244,7 @@ class _DrinkMakerPageState extends State<DrinkMakerPage> {
                       getResult();
                     },
                   ),
-                  Text("Yes")
+                  Text("Yes", style: ts)
                 ],
               ),
               Row(
@@ -198,7 +257,7 @@ class _DrinkMakerPageState extends State<DrinkMakerPage> {
                       getResult();
                     },
                   ),
-                  Text("No")
+                  Text("No", style: ts)
                 ],
               )
             ],
@@ -206,6 +265,7 @@ class _DrinkMakerPageState extends State<DrinkMakerPage> {
         ],
       );
   Widget milkDrop() => DropdownButton<String>(
+      dropdownColor: Colors.black,
       value: milkType,
       onChanged: (String? newValue) {
         setState(() {
@@ -220,14 +280,19 @@ class _DrinkMakerPageState extends State<DrinkMakerPage> {
         "Soy Milk"
       ].map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem(
-          child: Text(value),
+          child: Text(value, style: ts),
           value: value,
         );
       }).toList());
   Widget sweetDrop() => Column(
         children: [
-          Text("Choose your Sweetness"),
+          Divider(
+            color: Colors.red,
+            thickness: 3,
+          ),
+          Text("Choose your Sweetness", style: ts),
           Row(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Row(
                 children: [
@@ -241,7 +306,7 @@ class _DrinkMakerPageState extends State<DrinkMakerPage> {
                       getResult();
                     },
                   ),
-                  Text("Light Sweet")
+                  Text("Light Sweet", style: ts)
                 ],
               ),
               Row(
@@ -256,7 +321,7 @@ class _DrinkMakerPageState extends State<DrinkMakerPage> {
                       getResult();
                     },
                   ),
-                  Text("Normal Sweet")
+                  Text("Normal Sweet", style: ts)
                 ],
               ),
               Row(
@@ -271,42 +336,52 @@ class _DrinkMakerPageState extends State<DrinkMakerPage> {
                       getResult();
                     },
                   ),
-                  Text("Very Sweet")
+                  Text("Very Sweet", style: ts)
                 ],
               ),
             ],
           )
         ],
       );
-  Widget toppChoice() => DropdownButton<String>(
-      value: topping,
-      onChanged: (String? newValue) {
-        setState(() {
-          topping = newValue!;
-          getResult();
-        });
-      },
-      items: <String>[
-        "No topping",
-        "Honey Boba",
-        "Strawberry Popping Boba",
-        "Mango Popping Boba",
-        "Passion Fruit Popping Boba",
-        "Lychee Popping Boba",
-        "Boba Bran",
-        "Taro Chunks",
-      ].map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem(
-          child: Text(value),
-          value: value,
-        );
-      }).toList());
+  Widget toppChoice() => Column(
+        children: [
+          Divider(
+            color: Colors.red,
+            thickness: 3,
+          ),
+          Text("Choose a Topping", style: ts),
+          DropdownButton<String>(
+              dropdownColor: Colors.black,
+              value: topping,
+              onChanged: (String? newValue) {
+                setState(() {
+                  topping = newValue!;
+                  getResult();
+                });
+              },
+              items: <String>[
+                "No topping",
+                "Honey Boba",
+                "Strawberry Popping Boba",
+                "Mango Popping Boba",
+                "Passion Fruit Popping Boba",
+                "Lychee Popping Boba",
+                "Boba Bran",
+                "Taro Chunks",
+              ].map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem(
+                  child: Text(value, style: ts),
+                  value: value,
+                );
+              }).toList()),
+        ],
+      );
   Widget saveDrink() => Column(children: [
         ElevatedButton(
           onPressed: () {
             callSave();
           },
-          child: Text("Save to MyDrinks"),
+          child: Text("Save to MyDrinks", style: ts),
         ),
       ]);
 }

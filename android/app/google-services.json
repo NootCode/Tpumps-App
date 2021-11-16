@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "448306274570",
+    "project_id": "tpumps-app",
+    "storage_bucket": "tpumps-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:448306274570:android:0fc9330c1ee74e9fb69af3",
+        "android_client_info": {
+          "package_name": "com.example.tpumps_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "448306274570-mk0os2i1vou9i4j199td77lrdhpguuij.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDN4cOYnS1iYa6EX8V6F-KaSKh_7eoFAzk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "448306274570-mk0os2i1vou9i4j199td77lrdhpguuij.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
