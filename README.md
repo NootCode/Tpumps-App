@@ -1,4 +1,4 @@
-Tpumps Mobile App
+<h1>Tpumps Mobile App</h1>
 
 Mobile Application using flutter and dart. This app was made to improve customer experience at tpumps boba shops. Allows users to discover new drinks, create better flavor combinations and save them to try for later. The users can also find different locations of the stores and get directions to each location.
 
