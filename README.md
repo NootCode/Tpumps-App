@@ -8,4 +8,4 @@ Future updates!
 
 In the future I plan to make a community page that allows users to post their favorite drinks for others to see. Other users can like the drinks allowing others to sort by the number of likes each drink has. Can also make a chat function allowing customers to chat amongst eachother to promote a more social environment bringing more business to the company. 
 
-Overall this project was really fun to work with!
+Overall this project was really fun to work on and learning flutter was a great experience!
