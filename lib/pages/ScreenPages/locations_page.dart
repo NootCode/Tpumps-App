@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tpumps_app/model/address_settings.dart';
+import 'package:tpumps_app/pages/ExtraPages/settings_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:map_launcher/map_launcher.dart';
 
@@ -76,12 +77,24 @@ class _LocationsPageState extends State<LocationsPage> {
       appBar: AppBar(
         toolbarHeight: 100,
         backgroundColor: Color(0xff232b2b),
-        title: Center(
-          child: Image(
-            image: NetworkImage(
-                'https://static.wixstatic.com/media/131e23_5b7a1179131a40b8b7badda0ebf119ef~mv2_d_3552_1998_s_2.png/v1/crop/x_0,y_382,w_3552,h_1277/fill/w_460,h_166,al_c,q_85,usm_0.66_1.00_0.01/131e23_5b7a1179131a40b8b7badda0ebf119ef~mv2_d_3552_1998_s_2.webp'),
-            fit: BoxFit.cover,
-            height: 100,
+        title: Container(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Image(
+                image: NetworkImage(
+                    'https://static.wixstatic.com/media/131e23_5b7a1179131a40b8b7badda0ebf119ef~mv2_d_3552_1998_s_2.png/v1/crop/x_0,y_382,w_3552,h_1277/fill/w_460,h_166,al_c,q_85,usm_0.66_1.00_0.01/131e23_5b7a1179131a40b8b7badda0ebf119ef~mv2_d_3552_1998_s_2.webp'),
+                fit: BoxFit.cover,
+                height: 90,
+              ),
+              Spacer(),
+              IconButton(
+                icon: Icon(Icons.settings),
+                onPressed: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => SettingsPage())),
+              ),
+            ],
           ),
         ),
       ),

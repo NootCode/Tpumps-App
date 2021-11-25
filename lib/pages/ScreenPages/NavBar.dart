@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:tpumps_app/pages/drink_maker_page.dart';
-import 'package:tpumps_app/pages/home_page.dart';
-import 'package:tpumps_app/pages/locations_page.dart';
+import 'package:tpumps_app/pages/ScreenPages/drink_maker_page.dart';
+import 'package:tpumps_app/pages/ScreenPages/home_page.dart';
+import 'package:tpumps_app/pages/ScreenPages/locations_page.dart';
 import 'package:tpumps_app/pages/community_page.dart';
-import 'package:tpumps_app/pages/myDrinks_page.dart';
+import 'package:tpumps_app/pages/ScreenPages/myDrinks_page.dart';
 
 class NavBar extends StatefulWidget {
   NavBar({Key? key}) : super(key: key);
@@ -75,7 +75,7 @@ class _NavBarState extends State<NavBar> {
             label: "DrinkMaker",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.r_mobiledata),
+            icon: Icon(Icons.star),
             label: "My Drinks",
           ),
           BottomNavigationBarItem(

@@ -3,8 +3,8 @@
     <!-- ALSO ADDED -->
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
    <application
-        android:label="tpumps_app"
-        android:icon="@mipmap/ic_launcher">
+        android:label="Tpumps"
+        android:icon="@mipmap/launcher_icon">
         <!-- THIS IS ADDED HERE -->
         <activity android:name="io.flutter.plugins.urllauncher.WebViewActivity"
            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"

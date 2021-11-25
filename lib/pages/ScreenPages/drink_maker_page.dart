@@ -1,7 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:tpumps_app/main.dart';
-import 'package:tpumps_app/pages/flavors.dart';
+import 'package:tpumps_app/model/flavors.dart';
+import 'package:tpumps_app/pages/ExtraPages/settings_page.dart';
 
 class DrinkMakerPage extends StatefulWidget {
   DrinkMakerPage({Key? key}) : super(key: key);
@@ -35,18 +36,33 @@ class _DrinkMakerPageState extends State<DrinkMakerPage> {
   }
 
   TextStyle ts = new TextStyle(color: Colors.white, fontSize: 16);
+  TextStyle questionTs = new TextStyle(
+      color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 100,
         backgroundColor: Color(0xff232b2b),
-        title: Center(
-          child: Image(
-            image: NetworkImage(
-                'https://static.wixstatic.com/media/131e23_5b7a1179131a40b8b7badda0ebf119ef~mv2_d_3552_1998_s_2.png/v1/crop/x_0,y_382,w_3552,h_1277/fill/w_460,h_166,al_c,q_85,usm_0.66_1.00_0.01/131e23_5b7a1179131a40b8b7badda0ebf119ef~mv2_d_3552_1998_s_2.webp'),
-            fit: BoxFit.cover,
-            height: 100,
+        title: Container(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Image(
+                image: NetworkImage(
+                    'https://static.wixstatic.com/media/131e23_5b7a1179131a40b8b7badda0ebf119ef~mv2_d_3552_1998_s_2.png/v1/crop/x_0,y_382,w_3552,h_1277/fill/w_460,h_166,al_c,q_85,usm_0.66_1.00_0.01/131e23_5b7a1179131a40b8b7badda0ebf119ef~mv2_d_3552_1998_s_2.webp'),
+                fit: BoxFit.cover,
+                height: 90,
+              ),
+              Spacer(),
+              IconButton(
+                icon: Icon(Icons.settings),
+                onPressed: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => SettingsPage())),
+              ),
+            ],
           ),
         ),
       ),
@@ -55,43 +71,59 @@ class _DrinkMakerPageState extends State<DrinkMakerPage> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              ElevatedButton(
-                onPressed: () {
-                  _awaitFlavors(context);
-                },
-                child: Text("Choose Flavors"),
-              ),
-              Text(
-                flavors,
-                style: TextStyle(color: Colors.white, fontSize: 22),
-              ),
-              getTea(),
-              getMilk(),
-              if (milk) milkDrop(),
-              sweetDrop(),
-              toppChoice(),
-              Divider(
-                color: Colors.red,
-                thickness: 3,
-              ),
-              Center(
-                child: Text(
-                  "Drink Created",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 25,
-                    decoration: TextDecoration.underline,
-                    decorationStyle: TextDecorationStyle.double,
-                  ),
+              SingleChildScrollView(
+                child: Column(
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        _awaitFlavors(context);
+                      },
+                      child: Text(
+                        "Choose Flavors",
+                        style: questionTs,
+                      ),
+                    ),
+                    Text(
+                      flavors,
+                      style: TextStyle(color: Colors.white, fontSize: 22),
+                    ),
+                    getTea(),
+                    getMilk(),
+                    if (milk) milkDrop(),
+                    sweetDrop(),
+                    toppChoice(),
+                    Divider(
+                      color: Colors.red,
+                      thickness: 3,
+                    ),
+                    Center(
+                      child: Text(
+                        "Drink Created",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                          decoration: TextDecoration.underline,
+                          decorationStyle: TextDecorationStyle.double,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.all(20),
+                      child: Center(
+                        child: Text(
+                          result,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                    ),
+                    saveDrink(),
+                  ],
                 ),
               ),
-              Container(
-                margin: EdgeInsets.all(20),
-                child: Center(
-                  child: Text(result, style: ts),
-                ),
-              ),
-              saveDrink()
             ],
           ),
         ),
@@ -140,9 +172,12 @@ class _DrinkMakerPageState extends State<DrinkMakerPage> {
   callSave() {
     print("Saving: " + result);
     var timestamp = new DateTime.now().millisecondsSinceEpoch;
+    final User user = FirebaseAuth.instance.currentUser!;
+    final String userID = user.uid;
+
     FirebaseDatabase.instance
         .reference()
-        .child("Saved Drinks/Drink " + timestamp.toString())
+        .child("Saved Drinks/User$userID/Drink " + timestamp.toString())
         .set({'name': result, 'key': 'Drink $timestamp'})
         .then((value) => print('Successfully Saved Drink'))
         .catchError((error) {
@@ -158,8 +193,7 @@ class _DrinkMakerPageState extends State<DrinkMakerPage> {
           color: Colors.red,
           thickness: 3,
         ),
-        Text("Select your Tea:",
-            style: TextStyle(color: Colors.white, fontSize: 18)),
+        Text("Select your Tea:", style: questionTs),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -230,7 +264,7 @@ class _DrinkMakerPageState extends State<DrinkMakerPage> {
             color: Colors.red,
             thickness: 3,
           ),
-          Text("Do you Want Milk?", style: ts),
+          Text("Do you Want Milk?", style: questionTs),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -290,9 +324,9 @@ class _DrinkMakerPageState extends State<DrinkMakerPage> {
             color: Colors.red,
             thickness: 3,
           ),
-          Text("Choose your Sweetness", style: ts),
+          Text("Choose your Sweetness", style: questionTs),
           Row(
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Row(
                 children: [
@@ -306,7 +340,7 @@ class _DrinkMakerPageState extends State<DrinkMakerPage> {
                       getResult();
                     },
                   ),
-                  Text("Light Sweet", style: ts)
+                  Text("Light", style: ts)
                 ],
               ),
               Row(
@@ -321,7 +355,7 @@ class _DrinkMakerPageState extends State<DrinkMakerPage> {
                       getResult();
                     },
                   ),
-                  Text("Normal Sweet", style: ts)
+                  Text("Normal", style: ts)
                 ],
               ),
               Row(
@@ -336,7 +370,7 @@ class _DrinkMakerPageState extends State<DrinkMakerPage> {
                       getResult();
                     },
                   ),
-                  Text("Very Sweet", style: ts)
+                  Text("Very", style: ts)
                 ],
               ),
             ],
@@ -349,7 +383,7 @@ class _DrinkMakerPageState extends State<DrinkMakerPage> {
             color: Colors.red,
             thickness: 3,
           ),
-          Text("Choose a Topping", style: ts),
+          Text("Choose a Topping", style: questionTs),
           DropdownButton<String>(
               dropdownColor: Colors.black,
               value: topping,

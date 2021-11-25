@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:tpumps_app/pages/NavBar.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:tpumps_app/pages/ExtraPages/login_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,12 +22,13 @@ class MyApp extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.done) {
           return MaterialApp(
             title: 'Flutter Demo',
+            debugShowCheckedModeBanner: false,
             theme: ThemeData(
               primarySwatch: Colors.red,
               //fontFamily: 'ProximaNova',
               textTheme: GoogleFonts.poppinsTextTheme(),
             ),
-            home: NavBar(),
+            home: LoginPage(),
           );
         }
         return new Directionality(

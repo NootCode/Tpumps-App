@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:tpumps_app/pages/ExtraPages/settings_page.dart';
 
 final List<String> imgList = [
   "https://www.visitpasadena.com/imager/s3_us-west-1_amazonaws_com/pasadena-2020/images/blog-images/TPumps-945x596_bc0d2157d501d4729a3d5631708a6b2e.jpg",
@@ -61,12 +62,25 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         toolbarHeight: 100,
         backgroundColor: Color(0xff232b2b),
-        title: Center(
-          child: Image(
-            image: NetworkImage(
-                'https://static.wixstatic.com/media/131e23_5b7a1179131a40b8b7badda0ebf119ef~mv2_d_3552_1998_s_2.png/v1/crop/x_0,y_382,w_3552,h_1277/fill/w_460,h_166,al_c,q_85,usm_0.66_1.00_0.01/131e23_5b7a1179131a40b8b7badda0ebf119ef~mv2_d_3552_1998_s_2.webp'),
-            fit: BoxFit.cover,
-            height: 100,
+        centerTitle: true,
+        title: Container(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            // mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Image(
+                image: NetworkImage(
+                    'https://static.wixstatic.com/media/131e23_5b7a1179131a40b8b7badda0ebf119ef~mv2_d_3552_1998_s_2.png/v1/crop/x_0,y_382,w_3552,h_1277/fill/w_460,h_166,al_c,q_85,usm_0.66_1.00_0.01/131e23_5b7a1179131a40b8b7badda0ebf119ef~mv2_d_3552_1998_s_2.webp'),
+                fit: BoxFit.cover,
+                height: 90,
+              ),
+              Spacer(),
+              IconButton(
+                icon: Icon(Icons.settings),
+                onPressed: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => SettingsPage())),
+              ),
+            ],
           ),
         ),
       ),
@@ -77,19 +91,23 @@ class _HomePageState extends State<HomePage> {
             Expanded(
               flex: 50,
               child: Container(
-                  margin: EdgeInsets.only(top: 20),
+                  margin: EdgeInsets.only(top: 35),
                   alignment: Alignment.topCenter,
                   child: CarouselSlider(
-                    options: CarouselOptions(),
+                    options: CarouselOptions(
+                      autoPlay: true,
+                      enableInfiniteScroll: true,
+                    ),
                     items: imgList
                         .map((item) => Container(
                               child: Center(
-                                  child: Image.network(
-                                item,
-                                fit: BoxFit.cover,
-                                width: 1000,
-                                height: 1000,
-                              )),
+                                child: Image.network(
+                                  item,
+                                  fit: BoxFit.cover,
+                                  width: 1000,
+                                  height: 1000,
+                                ),
+                              ),
                             ))
                         .toList(),
                   )),
