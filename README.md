@@ -1,16 +1,11 @@
-# tpumps_app
+Tpumps Mobile App
 
-A new Flutter project.
+Mobile Application using flutter and dart. This app was made to improve customer experience at tpumps boba shops. Allows users to discover new drinks, create better flavor combinations and save them to try for later. The users can also find different locations of the stores and get directions to each location.
 
-## Getting Started
+Currently all features are functional except the Drink of the Day on the home screen. Needs to be implemented so every day at midnight a new drink is selected.
 
-This project is a starting point for a Flutter application.
+Future updates!
 
-A few resources to get you started if this is your first Flutter project:
+In the future I plan to make a community page that allows users to post their favorite drinks for others to see. Other users can like the drinks allowing others to sort by the number of likes each drink has. Can also make a chat function allowing customers to chat amongst eachother to promote a more social environment bringing more business to the company. 
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Overall this project was really fun to work with!
